@@ -1,0 +1,15 @@
+@import '../../css/variables';
+
+section.battleReport {
+  width: 50%;
+  margin: $header-height-padded auto 0 auto;
+  background-color: white;
+
+  input {
+    display: block;
+  }
+
+  select {
+    display: block;
+  }
+}

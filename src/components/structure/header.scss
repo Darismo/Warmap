@@ -1,0 +1,25 @@
+@import '../../css/variables';
+
+header.header {
+  padding: $padding / 2;
+  background: #757575;
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: $header-height;
+  z-index: 1000;
+  line-height: $header-height;
+
+
+  h1, nav {
+    display: inline;
+  }
+
+  nav {
+    padding: 0 $padding;
+    .link {
+      padding: 0 ($padding / 4);
+    }
+  }
+}

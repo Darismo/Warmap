@@ -1,0 +1,21 @@
+@import '../../../css/variables';
+@import 'standingsPlayer/standingsPlayer';
+
+div.standings {
+  padding: ($padding / 4) ($padding / 2);
+  background: #9E9E9E;
+  box-shadow: 0 5px 5px 0 rgba(117,117,117,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: $header-height-padded;
+  z-index: 1001;
+  width: 100%;
+  height: $sub-header-height;
+
+
+  h2 {
+    display: inline;
+  }
+}

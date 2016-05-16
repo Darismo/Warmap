@@ -1,0 +1,79 @@
+div.sector{
+  background: #CFD8DC;
+  width: 40px;
+  height: 25px;
+  margin: 10px;
+  transition: all 0.8s ease;
+  opacity: 0.6;
+  box-shadow: 5px 10px 15px 0 rgba(0,0,0,0.75);
+
+  &.Uncontrolled {
+    opacity: 0.3;
+  }
+
+  &:before {
+    content: " ";
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 0;
+    border-bottom: 10px solid #CFD8DC;
+    border-right: 20px solid transparent;
+    border-left: 20px solid transparent;
+    transition: all 0.8s ease;
+  }
+
+  &:after {
+    content: " ";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 0;
+    border-top: 10px solid #CFD8DC;
+    border-right: 20px solid transparent;
+    border-left: 20px solid transparent;
+    transition: all 0.8s ease;
+  }
+
+  &:hover {
+    background: lighten(#CFD8DC, 10%);
+    color: #CFD8DC;
+    cursor: pointer;
+    opacity: 1;
+
+    &:before {
+      border-bottom-color: lighten(#CFD8DC, 10%);
+    }
+
+    &:after {
+      border-top-color: lighten(#CFD8DC, 10%);
+    }
+  }
+
+  div.content {
+    color: #000000;
+    font-family: sans-serif;
+    font-size: 12px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    position: relative;
+
+    .emblem {
+      display: block;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      margin: 0 auto;
+    }
+
+    .upgradeShorthand {
+      display: block;
+      position: relative;
+      bottom: 2px;
+      margin: 0 auto;
+      z-index: 1000;
+    }
+  }
+
+}

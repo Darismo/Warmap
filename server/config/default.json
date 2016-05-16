@@ -1,0 +1,5 @@
+{
+  "databaseURI": "mongodb://localhost/test",
+  "port": 40000,
+  "directory": "dist"
+}

@@ -1,0 +1,75 @@
+@import 'mixins';
+
+$darismo: #00401E;
+$wesslan: #991115;
+$mithram: #D4D3A3;
+$cubic: #1E7332;
+$gizmoZonic: #6A0002;
+
+.sector {
+  &.Darismo {
+    @include player($darismo);
+  }
+
+  &.Wesslan {
+    @include player($wesslan);
+  }
+
+  &.Mithram {
+    @include player($mithram);
+  }
+
+  &.Cubic {
+    @include player($cubic);
+  }
+
+  &.GizmoZonic {
+    @include player($gizmoZonic);
+  }
+}
+
+span.emblem {
+  &.Darismo {
+    background: url("images/darkangel.png") no-repeat;
+  }
+
+  &.Wesslan {
+    background: url("images/chaos1.png") no-repeat;
+  }
+
+  &.Mithram {
+    background: url("images/tyranids.png") no-repeat;
+  }
+
+  &.Cubic {
+    background: url("images/tau.png") no-repeat;
+  }
+
+  &.GizmoZonic {
+    background: url("images/chaos2.png") no-repeat;
+  }
+}
+
+span.standingsPlayer {
+  .emblem {
+    &.Darismo {
+      background: $darismo url("images/darkangel.png") no-repeat;
+    }
+
+    &.Wesslan {
+      background: $wesslan url("images/chaos1.png") no-repeat;
+    }
+
+    &.Mithram {
+      background: $mithram url("images/tyranids.png") no-repeat;
+    }
+
+    &.Cubic {
+      background: $cubic url("images/tau.png") no-repeat;
+    }
+
+    &.GizmoZonic {
+      background: $gizmoZonic url("images/chaos2.png") no-repeat;
+    }
+  }
+}
