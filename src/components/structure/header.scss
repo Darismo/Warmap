@@ -2,8 +2,15 @@
 
 header.header {
   padding: $padding / 2;
-  background: #757575;
-  box-shadow: 0 5px 5px 0 rgba(0,0,0,0.5);
+  background: $color-main;
+  background: repeating-linear-gradient(
+                  45deg,
+                  $color-main,
+                  $color-main 10px,
+                  $color-light-1 10px,
+                  $color-light-1 20px
+  );
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.25);
   position: fixed;
   top: 0;
   width: 100%;
@@ -14,12 +21,17 @@ header.header {
 
   h1, nav {
     display: inline;
+    color: $color-dark-2;
+    height: 100%;
   }
 
   nav {
     padding: 0 $padding;
     .link {
       padding: 0 ($padding / 4);
+      height: 100%;
+      color: $color-dark-1;
+      text-decoration: none;
     }
   }
 }
