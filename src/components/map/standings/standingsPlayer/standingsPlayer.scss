@@ -9,10 +9,9 @@ span.standingsPlayer {
   height: 25px;
   line-height: 25px;
 
-
-
   p {
     display: inline;
+    padding: 0 ($padding / 2);
   }
 
   .emblem {

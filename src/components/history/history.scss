@@ -2,4 +2,17 @@
 
 main.history {
   margin-top: $header-height-padded;
+  height: 100%;
+
+  div.cardHolder {
+    display: flex;
+    flex-wrap: wrap;
+    padding: $padding;
+
+    div.card {
+      height: 200px;
+      width: 200px;
+      margin: 0 $padding $padding 0;
+    }
+  }
 }

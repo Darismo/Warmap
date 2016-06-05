@@ -1,5 +1,46 @@
+@import '../../../../css/variables';
+
 div.sectorInfo {
+
+  display: flex;
+  flex-flow: row wrap;
+
   &.hidden {
     display: none;
+  }
+
+  button.edit, button.battleReport {
+    box-shadow: 0 5px 5px 0 rgba(117,117,117,0.5);
+    margin: $padding / 2;
+
+    &:hover {
+      box-shadow: 0 5px 5px 0 rgba(0,0,0,0.5);
+    }
+  }
+
+  ul {
+    flex-grow: 2;
+    display: flex;
+    li {
+      padding: 0 ($padding / 4);
+      margin: auto;
+
+      span.upgradeShorthand {
+        i {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  a {
+    display: flex;
+    text-decoration: none;
+    color: black;
+
+    i {
+      margin: auto;
+
+    }
   }
 }

@@ -14,6 +14,7 @@ class History extends React.Component {
     componentWillMount() {
         BattleReportService.get().then(function (battleReport) {
             this.setState({history: battleReport});
+            console.log(battleReport);
         }.bind(this));
     }
 
@@ -21,12 +22,25 @@ class History extends React.Component {
         return (
             <main className="history">
                 <Header></Header>
-                <h1>History</h1>
-                <ul>
+                <div className="cardHolder">
                     {this.state.history.map(function(history) {
-                        return <li>{"Name: " + history.name + ", Date: " + history.date}</li>
+                        return <div className="mdl-card mdl-shadow--4dp card">
+                            <div className="mdl-card__title mdl-card--border">
+                                <h2 className="mdl-card__title-text">{history.name}</h2>
+                            </div>
+                            <div className="mdl-card__supporting-text">
+                                <ul>
+                                    <li>Date: {history.date}</li>
+                                    <li>Sector: {history.sector.code}</li>
+                                    <li>Attacker: {history.attacker.name}</li>
+                                    <li>Defender: {history.defender.name}</li>
+                                    <li>Result: {history.draw ? 'Draw' : history.winner.name + " won."}</li>
+                                    {history.draw ? "" : <li>Tile conquered: {history.conquered}</li>}
+                                </ul>    
+                            </div>
+                        </div>
                     })}
-                </ul>
+                </div>
             </main>
         );
     }

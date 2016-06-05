@@ -3,19 +3,12 @@
 header.header {
   padding: $padding / 2;
   background: $color-main;
-  background: repeating-linear-gradient(
-                  45deg,
-                  $color-main,
-                  $color-main 10px,
-                  $color-light-1 10px,
-                  $color-light-1 20px
-  );
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.25);
   position: fixed;
   top: 0;
   width: 100%;
   height: $header-height;
-  z-index: 1000;
+  z-index: 1010;
   line-height: $header-height;
 
 

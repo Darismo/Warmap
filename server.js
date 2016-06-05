@@ -1,12 +1,15 @@
 var mongoose = require('mongoose');
 var express = require('express');
-var Post = require('./server/models/post/Post');
 var Player = require('./server/models/Player');
 var Sector = require('./server/models/Sector');
 var BattleReport = require('./server/models/BattleReport');
+var Role = require('./server/models/Role');
+var Result = require('./server/models/Result');
 var bodyParser = require('body-parser');
 var config = require('config');
 var SectorType = require('./server/models/SectorType');
+var BattleReportController = require('./server/controllers/BattleReportController');
+var BattleResult = require('./server/models/BattleResult');
 
 mongoose.connect(config.get('databaseURI'));
 var app = express();
@@ -31,8 +34,7 @@ app.get('/player', function(req, res){
 app.post('/player', function(req, res) {
     var player = new Player({
         name: req.body.name,
-        army: req.body.army,
-        color: req.body.color
+        army: req.body.army
     });
 
     player.save(function(err, post){
@@ -55,59 +57,27 @@ app.delete('/player', function(req, res) {
 });
 
 app.delete('/battleReport', function(req, res) {
-    BattleReport.remove({}, function() {});
-
-    res.send();
+    BattleReportController.removeAll().then(function (response) {
+        res.send(response);
+    }, function(error) {
+        console.log(error);
+    });
 });
 
 app.get('/battleReport', function(req, res){
-    BattleReport.find()
-        .populate('attacker')
-        .populate('defender')
-        .populate('winner')
-        .populate('sector')
-        .exec(function(err, battleReport) {
-            if(err) {
-                console.log(err);
-            }
-            res.send(battleReport);
-        });
+    BattleReportController.getAll().then(function(battleReports) {
+        res.send(battleReports);
+    }, function(error) {
+        console.log(error);
+    });
 });
 
 app.post('/battleReport', function(req, res) {
-
-    Sector.findOne({code: req.body.sector}, function(err, sector) {
-        console.log(err);
-        var battleReport = new BattleReport({
-            name: req.body.name,
-            date: req.body.date,
-            attacker: req.body.attacker._id,
-            defender: req.body.defender._id,
-            winner: req.body.winner._id,
-            attackingPlayerPoints: req.body.attackingPlayerPoints,
-            defendingPlayerPoints: req.body.defendingPlayerPoints,
-            sector: sector._id,
-            conquered: req.body.conquered,
-            mission: req.body.mission
-        });
-
-        if(battleReport.conquered) {
-            sector.owner = req.body.attacker.name;
-            sector.secured = battleReport.date;
-            sector.save();
-            console.log(sector);
-        }
-
-        battleReport.save(function(err){
-
-            if(err) {
-                console.log(err);
-            }
-
-        });
+    BattleReportController.save(req.body).then(function(response) {
+        res.send(response);
+    }, function(error) {
+        console.log(error);
     });
-
-    res.send('');
 });
 
 app.get('/sector', function(req, res){
@@ -116,15 +86,6 @@ app.get('/sector', function(req, res){
             console.log(err);
         }
         res.send(sectors);
-    });
-});
-
-app.get('/posts', function(req, res){
-    Post.find.populate('upgrade')(function(err, posts) {
-        if(err) {
-            console.log(err);
-        }
-        res.send(posts);
     });
 });
 
@@ -193,6 +154,7 @@ app.post('/sectorType', function(req, res) {
 app.post('/newGame', function(req, res) {
     var emptyTileType;
     BattleReport.remove({}, function() {});
+    BattleResult.remove({}, function() {});
 
 
     SectorType.findOne({ name: 'None' }, function(err, sector) {
@@ -202,13 +164,22 @@ app.post('/newGame', function(req, res) {
         emptyTileType = sector;
         console.log(emptyTileType);
 
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        if(month < 10) {
+            month = "0" + month;
+        } else {
+            month = "" + month;
+        }
+        date = date.getFullYear() + '-' + month + '-' + date.getDate();
+
         for(var i=0; i<parseInt(req.body.rows); i++) {
             for(var j=0;j< parseInt(req.body.columns); j++) {
                 sector = new Sector({
                     code: i + ":" + j,
                     owner: 'Uncontrolled',
                     upgrade: emptyTileType._id,
-                    secured: ''
+                    secured: date
                 });
 
                 sector.save(function(err, sector){
@@ -222,7 +193,49 @@ app.post('/newGame', function(req, res) {
         }
         res.send();
     });
+});
 
+app.post('/role', function(req, res) {
+    var role = new Role({
+        name: req.body.name
+    });
+
+    role.save(function(err, role){
+        var response = role;
+        if(err) {
+            response = err;
+        }
+        res.send(response);
+    });
+});
+
+app.post('/result', function(req, res) {
+    var result = new Result({
+        name: req.body.name
+    });
+
+    result.save(function(err, result){
+        var response = result;
+        if(err) {
+            response = err;
+        }
+        res.send(response);
+    });
+});
+
+app.get('/battleResult', function (req, res) {
+    BattleResult.find()
+        .populate('battleReport')
+        .populate('player')
+        .populate('result')
+        .populate('role')
+        .exec(function(err, result) {
+           var response = result; 
+           if(err) {
+              response = err; 
+           } 
+           res.send(response); 
+        });
 });
 
 app.listen(config.get('port'));

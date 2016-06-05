@@ -32,6 +32,7 @@ class Map extends React.Component {
         var rows = [];
         var currentRowIndex = 0;
         var children = [];
+        var active = '';
 
         sortedSectors.forEach(function(sector) {
             if(sector.code.split(':')[0] !== '' + currentRowIndex) {
@@ -39,7 +40,13 @@ class Map extends React.Component {
                 rows.push(React.createElement('div', { className: 'row' }, children));
                 children = [];
             }
-            children.push(<Sector sector={sector} onClickCallback={this.sectorClicked}></Sector>);
+            
+            if(sector.code === this.props.activeSector.code) {
+                active = 'active';
+            }
+            
+            children.push(<Sector sector={sector} active={active} onClickCallback={this.sectorClicked}></Sector>);
+            active = '';
         }.bind(this));
         rows.push(React.createElement('div', { className: 'row' }, children));
 

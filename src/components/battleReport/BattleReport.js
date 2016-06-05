@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from './../structure/Header'
 import PlayerService from '../../services/PlayerService'
 import SectorService from '../../services/SectorService'
 import BattleReportService from '../../services/BattleReportService'
@@ -10,11 +9,11 @@ class BattleReport extends React.Component {
         super(props);
         this.onChange = this.onChange.bind(this);
         this.onChangePlayerById = this.onChangePlayerById.bind(this);
-        this.onChangeSector = this.onChangeSector.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChangeCheckbox = this.onChangeCheckbox.bind(this);
         this.calculatePoints = this.calculatePoints.bind(this);
         this.createNewBattleReportState = this.createNewBattleReportState.bind(this);
+        this.onChangeDraw = this.onChangeDraw.bind(this);
 
         this.state = {
             sectors: [],
@@ -24,14 +23,20 @@ class BattleReport extends React.Component {
                 date: '',
                 attacker: {name: ''},
                 defender: {name: ''},
+                draw: false,
                 winner: {name: ''},
                 attackingPlayerPoints: 0,
                 defendingPlayerPoints: 0,
-                sector: this.props.params.sector,
-                conquered: false,
-                mission: ''
+                sector: this.props.sector,
+                conquered: false
             }
         };
+    }
+    
+    componentWillReceiveProps(props) {
+        if(props.submit) {
+            this.handleSubmit();
+        }
     }
 
     componentWillMount() {
@@ -50,18 +55,24 @@ class BattleReport extends React.Component {
             date: this.state.battleReport.date,
             attacker: this.state.battleReport.attacker,
             defender: this.state.battleReport.defender,
+            draw: this.state.battleReport.draw,
             winner: this.state.battleReport.winner,
             attackingPlayerPoints: this.state.battleReport.attackingPlayerPoints,
             defendingPlayerPoints: this.state.battleReport.defendingPlayerPoints,
-            sector: this.state.battleReport.sector,
-            conquered: this.state.battleReport.conquered,
-            mission: this.state.battleReport.mission
+            sector: this.props.sector,
+            conquered: this.state.battleReport.conquered
         };
     }
 
     onChangeCheckbox() {
         var newBattleReportState = this.createNewBattleReportState();
         newBattleReportState.conquered = !newBattleReportState.conquered;
+        this.setState({battleReport: newBattleReportState});
+    }
+
+    onChangeDraw() {
+        var newBattleReportState = this.createNewBattleReportState();
+        newBattleReportState.draw = !newBattleReportState.draw;
         this.setState({battleReport: newBattleReportState});
     }
 
@@ -116,16 +127,6 @@ class BattleReport extends React.Component {
         this.setState({battleReport: newBattleReportState});
     }
 
-    onChangeSector() {
-        var newBattleReportState = this.createNewBattleReportState();
-
-        newBattleReportState[event.target.name] = this.state.sectors.find(function(sector) {
-            return sector.code === event.target.value;
-        });
-
-        this.setState({battleReport: newBattleReportState});
-    }
-
     onChange(event) {
         var newBattleReportState = this.createNewBattleReportState();
 
@@ -133,8 +134,7 @@ class BattleReport extends React.Component {
         this.setState({battleReport: newBattleReportState});
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
+    handleSubmit() {
 
         BattleReportService.post(this.state.battleReport).then(function(response) {
             console.log(response, 'save succesfull');
@@ -143,53 +143,88 @@ class BattleReport extends React.Component {
 
     render() {
         return (
-            <div>
-                <Header></Header>
                 <section className="battleReport">
-                    <h1>Create battle report</h1>
-                    <h2>Sector: {this.state.battleReport.sector}</h2>
-                    <form onSubmit={this.handleSubmit}>
-                        <label for="name">Name:</label>
-                        <input onChange={this.onChange} id="name" type="text" placeholder="Battle report name" name="name" value={this.state.battleReport.name} />
+                    <form id="battleReportForm">
+                        <div className="formItem">
+                            <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input className="mdl-textfield__input" onChange={this.onChange} id="name" type="text" name="name" value={this.state.battleReport.name} />
+                                <label className="mdl-textfield__label" for="name">Battle report name</label>
+                            </div>
+                        </div>
 
-                        <label for="date">Date:</label>
-                        <input onChange={this.onChange} id="date" type="date" name="date" value={this.state.battleReport.date} />
+                        <div className="formItem">
+                            <div className="">
+                                <label for="date">Date:</label>
+                                <input onChange={this.onChange} id="date" type="date" name="date" value={this.state.battleReport.date} />
+                            </div>
+                        </div>
+                        
+                        <div className="formItem">
+                            <span>
+                                <label for="attacker">Attacker:</label>
+                                <select onChange={this.onChangePlayerById} id="attacker" name="attacker">
+                                    {this.state.players.map(function(player) {
+                                        return <option value={player.name}>{player.name}</option>
+                                    }.bind(this))}
+                                </select>
+                            </span>    
+                            
+                            <span className="pointItem">
+                                <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input className="mdl-textfield__input" type="text" onChange={this.onChange} pattern="-?[0-9]*(\.[0-9]+)?" id="attackingPlayerPoints" name="attackingPlayerPoints" value={this.state.battleReport.attackingPlayerPoints} />
+                                    <label className="mdl-textfield__label" for="attackingPlayerPoints">Points</label>
+                                    <span className="mdl-textfield__error">Input is not a number!</span>
+                                </div>
+                            </span>
+                                
+                        </div>    
 
-                        <label for="attacker">Attacking player:</label>
-                        <select onChange={this.onChangePlayerById} id="attacker" name="attacker">
-                            {this.state.players.map(function(player) {
-                                return <option value={player.name}>{player.name}</option>
-                            }.bind(this))}
-                        </select>
+                        <div className="formItem">
+                            <span>
+                                <label for="defender">Defender:</label>
+                                <select onChange={this.onChangePlayerById} id="defender" name="defender">
+                                    {this.state.players.map(function(player) {
+                                        return <option value={player.name}>{player.name}</option>
+                                    }.bind(this))}
+                                </select>
+                            </span>
 
-                        <label for="defender">Defending player:</label>
-                        <select onChange={this.onChangePlayerById} id="defender" name="defender">
-                            {this.state.players.map(function(player) {
-                                return <option value={player.name}>{player.name}</option>
-                            }.bind(this))}
-                        </select>
+                            <span className="pointItem">
+                                <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                    <input className="mdl-textfield__input" type="text" onChange={this.onChange} pattern="-?[0-9]*(\.[0-9]+)?" id="defendingPlayerPoints" name="defendingPlayerPoints" value={this.state.battleReport.defendingPlayerPoints} />
+                                    <label className="mdl-textfield__label" for="defendingPlayerPoints">Points</label>
+                                    <span className="mdl-textfield__error">Input is not a number!</span>
+                                </div>
+                            </span>
+                        </div>
+                        
+                        <div className="formItem">
+                            <label for="draw" className="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+                                <input className="mdl-switch__input" onClick={this.onChangeDraw} type="checkbox" name="draw" id="draw" checked={this.state.battleReport.draw} value={this.state.battleReport.draw} />
+                                <span className="mdl-switch__label">Draw</span>
+                            </label>
+                        </div>
+                        
+                        <div className={this.state.battleReport.draw ? "optionalForm hidden" : "optionalForm visible"}>
+                            <hr />
+                            <div className="formItem">
+                                <label for="winner">Winner:</label>
+                                <select onChange={this.onChangePlayerById} id="winner" name="winner">
+                                    <option value={this.state.battleReport.attacker.name}>{this.state.battleReport.attacker.name}</option>
+                                    <option value={this.state.battleReport.defender.name}>{this.state.battleReport.defender.name}</option>
+                                </select>
+                            </div>
 
-                        <label for="winner">Winner:</label>
-                        <select onChange={this.onChangePlayerById} id="winner" name="winner">
-                            <option value="Draw">Draw</option>
-                            <option value={this.state.battleReport.attacker.name}>{this.state.battleReport.attacker.name}</option>
-                            <option value={this.state.battleReport.defender.name}>{this.state.battleReport.defender.name}</option>
-                        </select>
-
-                        <label for="attackingPlayerPoints">Attacking player points</label>
-                        <input onChange={this.onChange} id="attackingPlayerPoints" type="number" name="attackingPlayerPoints" value={this.state.battleReport.attackingPlayerPoints} />
-
-                        <label for="defendingPlayerPoints">Defending player points</label>
-                        <input onChange={this.onChange} id="defendingPlayerPoints" type="number" name="defendingPlayerPoints" value={this.state.battleReport.defendingPlayerPoints} />
-
-                        <label for="conquered">Tile conquered:</label>
-                        <input onClick={this.onChangeCheckbox} type="checkbox" checked={this.state.battleReport.conquered} id="conquered" name="conquered" value={this.state.battleReport.conquered} />
-
-
-                        <button>Save</button>
+                            <div className="formItem">
+                                <label for="conquered" className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                                    <input type="checkbox" onClick={this.onChangeCheckbox} id="conquered" name="conquered" value={this.state.battleReport.conquered} className="mdl-checkbox__input" />
+                                    <span className="mdl-checkbox__label">Tile conquered</span>
+                                </label>
+                            </div>    
+                        </div>
+                        
                     </form>
                 </section>
-            </div>
         );
     }
 }

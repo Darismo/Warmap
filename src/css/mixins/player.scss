@@ -20,4 +20,16 @@
   &:hover:before {
     border-bottom-color: lighten( $color, 10% );
   }
+
+  &.active {
+    background: lighten( $color, 10% );
+
+    &:before {
+      border-bottom-color: lighten( $color, 10% );
+    }
+
+    &:after {
+      border-top-color: lighten( $color, 10% );
+    }
+  }
 }

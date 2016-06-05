@@ -28,7 +28,49 @@ $gizmoZonic: #6A0002;
   }
 }
 
-span.emblem {
+.player {
+  &.Darismo {
+    background-color: $darismo;
+
+    &:hover {
+      background: lighten( $darismo, 10% );
+    }
+  }
+
+  &.Wesslan {
+    background-color: $wesslan;
+
+    &:hover {
+      background: lighten( $wesslan, 10% );
+    }
+  }
+
+  &.Mithram {
+    background-color: $mithram;
+
+    &:hover {
+      background: lighten( $mithram, 10% );
+    }
+  }
+
+  &.Cubic {
+    background-color: $cubic;
+
+    &:hover {
+      background: lighten( $cubic, 10% );
+    }
+  }
+
+  &.GizmoZonic {
+    background-color: $gizmoZonic;
+
+    &:hover {
+      background: lighten( $gizmoZonic, 10% );
+    }
+  }
+}
+
+span.emblem, i.emblem  {
   &.Darismo {
     background: url("images/darkangel.png") no-repeat;
   }

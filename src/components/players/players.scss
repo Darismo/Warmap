@@ -1,20 +1,30 @@
 @import '../../css/variables';
 
 main.players {
-
-  margin-top: $header-height-padded + $padding;
+  margin-top: $header-height + $padding;
 
   div.playerWrapper {
     margin: 0 auto;
     width: 50%;
 
-    ul {
-      li {
-        height: 50px;
+    ul.playerList {
+      li.player {
+        height: 25px;
         border-radius: 25px;
-        background: #9E9E9E;
-        padding: $padding;
-        margin: $padding 0;
+        padding: $padding / 2;
+        margin: ($padding / 2) 0;
+        box-shadow: 0 5px 5px 0 rgba(117,117,117,0.5);
+
+        &:hover {
+          box-shadow: 0 5px 5px 0 rgba(0,0,0,0.5);
+        }
+      }
+    }
+
+    ul.scoreList {
+      display: flex;
+      li {
+        margin: 0 $padding / 4;
       }
     }
   }

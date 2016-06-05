@@ -50,6 +50,11 @@ div.sector{
     }
   }
 
+  &.active {
+    cursor: pointer;
+    opacity: 1;
+  }
+
   div.content {
     color: #000000;
     font-family: sans-serif;
@@ -73,6 +78,10 @@ div.sector{
       bottom: 2px;
       margin: 0 auto;
       z-index: 1000;
+
+      i {
+        font-size: medium;
+      }
     }
   }
 

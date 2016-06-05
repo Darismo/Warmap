@@ -1,20 +1,14 @@
 @import 'displaySectorInfo/displaySectorInfo';
+@import 'editSectorInfo/editSectorInfo';
 @import '../../../css/variables';
 
 div.sectorInfo {
   position: fixed;
   background: #9E9E9E;
   z-index: 1000;
-  width: 50%;
-  left: 25%;
+  width: 80%;
+  left: 10%;
   bottom: 0;
   text-align: center;
   box-shadow: 0 -5px 5px 0 rgba(117,117,117,0.5);
-
-  ul {
-    li {
-      display: inline;
-      padding: $padding / 4;
-    }
-  }
 }

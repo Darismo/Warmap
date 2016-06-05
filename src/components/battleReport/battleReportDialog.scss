@@ -1,0 +1,8 @@
+@import '../../css/variables';
+
+.battleReportDialog {
+  z-index: 1005;
+  width: 50%;
+  position: fixed;
+  top: $header-height;
+}

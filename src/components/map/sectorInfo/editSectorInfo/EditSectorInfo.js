@@ -15,7 +15,8 @@ class DisplaySectorInfo extends React.Component {
         };
     }
 
-    onClick() {
+    onClick(event) {
+        event.preventDefault();
         this.props.setEditMode(false);
     }
 
@@ -44,10 +45,9 @@ class DisplaySectorInfo extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>Edit Sector info</h1>
+            <div className="editSectorInfo">
+                <p>Sector: {this.props.sector.code}</p>
                 <form onSubmit={this.handleSubmit}>
-                    <p>Sector code: {this.props.sector.code}</p>
                     <select onChange={this.onChange} name="owner">
                         {this.props.players.map(function(player) {
                             return <option selected={player.name === this.state.owner} value={player.name}>{player.name}</option>
@@ -59,9 +59,9 @@ class DisplaySectorInfo extends React.Component {
                         }.bind(this))}
                     </select>
                     <input onChange={this.onChange} type="date" name="secured" value={this.state.secured} />
-                    <button>Save</button>
+                    <button className="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-js-ripple-effect" onClick={this.onClick}><i className="material-icons">cancel</i></button>
+                    <button className="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-js-ripple-effect"><i className="material-icons">save</i></button>
                 </form>
-                <button onClick={this.onClick}>Cancel</button>
             </div>
         );
     }

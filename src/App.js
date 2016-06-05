@@ -6,6 +6,7 @@ import Header from './components/structure/Header'
 import PlayerService from './services/PlayerService'
 import SectorService from './services/SectorService'
 import SectorTypeService from './services/SectorTypeService'
+import BattleReportDialog from './components/battleReport/BattleReportDialog'
 
 class App extends React.Component{
 
@@ -13,8 +14,11 @@ class App extends React.Component{
     super();
     this.setActiveSector = this.setActiveSector.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
+    this.showBattleReportModal = this.showBattleReportModal.bind(this);
+    this.closeBattleReportModal = this.closeBattleReportModal.bind(this);
     this.state = {
       activeSector: {
+        code: '',
         upgrade: {
           name: '',
           pointValue: 0
@@ -22,7 +26,8 @@ class App extends React.Component{
       },
       sectors: [],
       players: [],
-      sectorTypes: []
+      sectorTypes: [],
+      battleReportModalOpen: false
     };
   }
 
@@ -57,13 +62,22 @@ class App extends React.Component{
       console.log(response, 'save succesfull');
     });
   }
+  
+  showBattleReportModal() {
+    this.setState({battleReportModalOpen: true});
+  }
+  
+  closeBattleReportModal() {
+    this.setState({battleReportModalOpen: false});
+  }
 
   render() {
     return <main className="main">
       <Header></Header>
-      <section className="standings"><Standings sectors={this.state.sectors} sectorTypes={this.state.sectorTypes}></Standings></section>
-      <SectorInfo ref="sectorInfo" players={this.state.players} sectorTypes={this.state.sectorTypes} sector={this.state.activeSector} saveChanges={this.saveChanges} ></SectorInfo>
-      <Map setActiveSector={this.setActiveSector} sectors={this.state.sectors}></Map>
+      <section className="standings"><Standings sectors={this.state.sectors} sectorTypes={this.state.sectorTypes} activeSector={this.state.activeSector}></Standings></section>
+      <BattleReportDialog open={this.state.battleReportModalOpen} closeModal={this.closeBattleReportModal} sector={this.state.activeSector}></BattleReportDialog> 
+      <Map setActiveSector={this.setActiveSector} sectors={this.state.sectors} activeSector={this.state.activeSector}></Map>
+      <SectorInfo ref="sectorInfo" players={this.state.players} sectorTypes={this.state.sectorTypes} sector={this.state.activeSector} showBattleReportModal={this.showBattleReportModal} saveChanges={this.saveChanges} ></SectorInfo>
     </main>
   }
 }

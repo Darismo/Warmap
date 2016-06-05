@@ -1,3 +1,5 @@
+@import '../node_modules/material-design-lite/material.min.css';
+@import 'css/reset.css';
 @import 'css/variables';
 @import 'css/fonts';
 @import 'css/scaffolding';
@@ -9,5 +11,6 @@
 @import 'components/map/map';
 @import 'components/players/players';
 @import 'components/battleReport/battleReport';
+@import 'components/battleReport/battleReportDialog';
 
 @import 'css/players';

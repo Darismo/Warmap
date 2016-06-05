@@ -9,7 +9,7 @@ class StadingsPlayer extends React.Component {
     render() {
         return (
         <span className={"standingsPlayer " + this.props.player.name}>
-            <span className={"emblem " + this.props.player.name}></span><p>Tiles: {this.props.player.tiles} Points: {this.props.player.points}p</p>
+            <span className={"emblem " + this.props.player.name}></span><p>{this.props.player.points}p from {this.props.player.tiles} tiles</p>
         </span>
         )
     }

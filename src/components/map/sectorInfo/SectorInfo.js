@@ -11,6 +11,7 @@ class SectorInfo extends React.Component {
         };
         this.setEditMode = this.setEditMode.bind(this);
         this.saveChanges = this.saveChanges.bind(this);
+        this.showBattleReportModal = this.showBattleReportModal.bind(this);
     }
 
     setEditMode(editMode) {
@@ -22,10 +23,14 @@ class SectorInfo extends React.Component {
         this.props.saveChanges(sector, newValues);
     }
 
+    showBattleReportModal() {
+        this.props.showBattleReportModal();
+    }
+
     render() {
         return (
             <div className="sectorInfo">
-                {this.state.editMode ? <EditSectorInfo sector={this.props.sector} sectorTypes={this.props.sectorTypes} players={this.props.players} saveChanges={this.saveChanges} setEditMode={this.setEditMode} /> : <DisplaySectorInfo sector={this.props.sector} setEditMode={this.setEditMode}/>}
+                {this.state.editMode ? <EditSectorInfo sector={this.props.sector} sectorTypes={this.props.sectorTypes} players={this.props.players} saveChanges={this.saveChanges} setEditMode={this.setEditMode} /> : <DisplaySectorInfo sector={this.props.sector} showBattleReportModal={this.showBattleReportModal} setEditMode={this.setEditMode}/>}
             </div>
         );
     }

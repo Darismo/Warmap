@@ -1,15 +1,18 @@
 @import '../../css/variables';
 
 section.battleReport {
-  width: 50%;
-  margin: $header-height-padded auto 0 auto;
-  background-color: white;
+  form#battleReportForm {
+    .formItem {
+      padding: $padding / 4;
+    }
 
-  input {
-    display: block;
+    .pointItem {
+      padding: 0 $padding;
+    }
   }
-
-  select {
-    display: block;
+  div.optionalForm {
+    &.hidden {
+      display: none;
+    }
   }
 }
