@@ -1,0 +1,32 @@
+[
+  {
+      "name": "Hive City",
+      "info": "Hive city tile has the shield generator, power station, defensive lines and a manufactorum. It is a hive city after all. ",
+      "pointValue": 510
+  },
+  {
+      "name": "Defensive Lines",
+      "info": "When this tile is attacked, the defender may place the four trench pieces in the defending player's Deployment Zone",
+      "pointValue": 10
+  },
+  {
+      "name": "Grand Manufactorum",
+      "info": "A manufactorum gives +90p to your army",
+      "pointValue": 100
+  },
+  {
+      "name": "Manufactorum",
+      "info": "",
+      "pointValue": 35
+  },
+  {
+      "name": "Shield Generator",
+      "info": "Conquering modifier -3, -1 to adjacent tiles",
+      "pointValue": 10
+  },
+  {
+      "name": "None",
+      "info": "A regular tile",
+      "pointValue": 10
+  }
+]
